@@ -1,0 +1,208 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "crons": [
+    {
+      "path": "/api/cron/collect-news",
+      "schedule": "0 6 * * *"
+    }
+  ],
+  "functions": {
+    "src/app/api/debug/route.ts": {
+      "maxDuration": 15,
+      "memory": 512
+    },
+    "src/app/api/cron/collect-news/route.ts": {
+      "maxDuration": 300,
+      "memory": 1024
+    },
+    "src/app/api/collection/status/route.ts": {
+      "maxDuration": 30,
+      "memory": 512
+    },
+    "src/app/api/news/personalized/route.ts": {
+      "maxDuration": 60,
+      "memory": 1024
+    },
+    "src/app/api/articles/summary/route.ts": {
+      "maxDuration": 45,
+      "memory": 1024
+    },
+    "src/app/api/preferences/route.ts": {
+      "maxDuration": 15,
+      "memory": 256
+    },
+    "src/app/api/interactions/route.ts": {
+      "maxDuration": 10,
+      "memory": 256
+    },
+    "src/app/api/health/route.ts": {
+      "maxDuration": 10,
+      "memory": 256
+    },
+    "src/app/api/monitoring/health/route.ts": {
+      "maxDuration": 15,
+      "memory": 256
+    },
+    "src/app/api/monitoring/performance/route.ts": {
+      "maxDuration": 15,
+      "memory": 256
+    },
+    "src/app/api/news/breaking/route.ts": {
+      "maxDuration": 30,
+      "memory": 512
+    },
+    "src/app/api/news/realtime/route.ts": {
+      "maxDuration": 30,
+      "memory": 512
+    },
+    "src/app/api/news/free/route.ts": {
+      "maxDuration": 30,
+      "memory": 512
+    },
+    "src/app/api/db-test/route.ts": {
+      "maxDuration": 15,
+      "memory": 256
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=60, stale-while-revalidate=300"
+        }
+      ]
+    },
+    {
+      "source": "/api/debug",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/api/news/personalized",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, max-age=300, s-maxage=600, stale-while-revalidate=1800"
+        }
+      ]
+    },
+    {
+      "source": "/api/articles/summary",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=7200, stale-while-revalidate=14400"
+        }
+      ]
+    },
+    {
+      "source": "/api/preferences",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, max-age=60, s-maxage=300"
+        }
+      ]
+    },
+    {
+      "source": "/api/news/breaking",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=60, s-maxage=120, stale-while-revalidate=300"
+        }
+      ]
+    },
+    {
+      "source": "/api/news/realtime",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=120, s-maxage=300, stale-while-revalidate=600"
+        }
+      ]
+    },
+    {
+      "source": "/api/news/free",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, s-maxage=600, stale-while-revalidate=1200"
+        }
+      ]
+    },
+    {
+      "source": "/_next/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/_next/image(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, s-maxage=31536000"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/health",
+      "destination": "/api/health"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
